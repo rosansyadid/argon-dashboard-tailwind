@@ -36,6 +36,10 @@ session_start();
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Main Styling -->
   <link href="../assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
+  <!-- sweetalert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- js -->
+  <script src="../js/confirm.js"></script>
 </head>
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . "/php/function.php");
@@ -406,9 +410,9 @@ $users = query(
                         </td>
                         <td
                           class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                          <a href="javascript:;"
+                          <a href="javascript:;" onclick="confirmDelete('user_delete','id',<?= $user['id'] ?>)"
                             class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                            Edit </a>
+                            Delete </a>
                         </td>
                       </tr><?php endforeach ?>
                   </tbody>

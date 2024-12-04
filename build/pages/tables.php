@@ -36,6 +36,9 @@ session_start();
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Main Styling -->
   <link href="../assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
+  <!-- Sweeet Alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../js/confirm.js"></script>
 </head>
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . "/php/function.php");
@@ -98,16 +101,19 @@ $reports = query(
           </a>
         </li>
 
-        <li class="mt-0.5 w-full">
-          <a class="py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors dark:text-white dark:opacity-80"
-            href="../pages/users.php">
-            <div
-              class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-red-600 ni ni-world-2"></i>
-            </div>
-            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Users</span>
-          </a>
-        </li>
+        <?php
+                if ($_SESSION['role_name'] == 'superadmin'):
+                    ?>
+                    <li class="mt-0.5 w-full">
+                        <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
+                            href="../pages/users.php">
+                            <div
+                                class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                <i class="relative top-0 text-sm leading-normal text-red-600 ni ni-world-2"></i>
+                            </div>
+                            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Users</span>
+                        </a>
+                    </li><?php endif ?>
 
         <li class="w-full mt-4">
           <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase dark:text-white opacity-60">Account pages</h6>
@@ -397,12 +403,15 @@ $reports = query(
                             class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
                             src="../assets/upload/<?= $report["thumbnail"] ?>" alt="">
                         </td>
+                        <?php
+                        if($_SESSION['role_name'] != 'masyarakat') :
+                        ?>
                         <td
                           class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                          <a href="javascript:;" onclick="confirmDelete('reports_delete', 'id',<?= $report['id'] ?>)"
+                          <a href="javascript:;" onclick="confirmDelete('report_delete','id',<?= $report['id'] ?>)"
                             class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
                             Delete </a>
-                        </td>
+                        </td><?php endif?>
                       </tr><?php endforeach ?>
                   </tbody>
                 </table>
@@ -570,15 +579,6 @@ $reports = query(
 <script src="../assets/js/plugins/perfect-scrollbar.min.js" async></script>
 <!-- main script file  -->
 <script src="../assets/js/argon-dashboard-tailwind.js?v=1.0.1" async></script>
-<!-- JS -->
-<script>
-function confirmDelete(route, paramName, id) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        const url = `/${route}.php?${paramName}=${id}`;
-        console.log('Deleting URL:', url); // Debug
-        window.location.href = url; // Redirect
-    }
-}
 </script>
 
 </html>

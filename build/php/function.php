@@ -1,6 +1,16 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . "/php/connection.php");
 
+if (isset($_GET['id']) && isset($_GET['report_delete'])) {
+    hapus('id', 'reports', $_GET['id']);
+    header("Location: ../pages/dashboard.php");
+}
+
+if (isset($_GET['id']) && isset($_GET['user_delete'])) {
+    hapus('id', 'users', $_GET['id']);
+    header("Location: ../pages/dashboard.php");
+}
+
 function query($query)
 {
     global $connection;
@@ -246,7 +256,7 @@ function handleFormSubmit($data, $table, $action)
 
 
         $result = $isUpdate ? update($table, $data, ['id' => $data['id']]) : tambah($data, $table, array_keys($fields));
-       
+
 
         $successMessage = $tableFields[$table]['successMessage'];
         $duplicateMessage = $tableFields[$table]['duplicateMessage'] ?? 'Duplicate entry';

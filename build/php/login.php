@@ -35,7 +35,6 @@ function login($data)
         if (password_verify($password, $result[0]["password"])) {
             // Set session data
             $_SESSION["login"] = true;
-            $_SESSION["loggedin"] = true;
             $_SESSION["name"] = $result[0]["name"];
             $_SESSION["user_id"] = $result[0]["id"];
             $_SESSION["username"] = $result[0]["username"];
